@@ -66,14 +66,20 @@ class CustomerControllerTest {
 	
 	@Test
 	void test_viewCustomer() throws Exception{
-		BDDMockito.given(customerService.findByIdentifier(Mockito.anyString())).willReturn(new Customer("101","Prathika","prathika@gmail.com","9247847122"));
+		BDDMockito.given(customerService.findByIdentifier(Mockito.anyString())).willReturn(new Customer("101","Prathika","prathika@gmail.com","9247847122","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889"));
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/customers/101"))
 		.andExpect(status().isOk())
 	    //.andExpect(jsonPath("$").isMap())
 	    .andExpect(jsonPath("identifier").value("101"))
 	    .andExpect(jsonPath("name").value("Prathika"))
 	    .andExpect(jsonPath("email").value("prathika@gmail.com"))
-	    .andExpect(jsonPath("phone").value("9247847122"));
+	    .andExpect(jsonPath("phone").value("9247847122"))
+		.andExpect(jsonPath("addressLineOne").value("Hno-103"))
+	    .andExpect(jsonPath("addressLineTwo").value("Fathenagar"))
+	    .andExpect(jsonPath("city").value("Hyderabad"))
+	    .andExpect(jsonPath("lState").value("Telangana"))
+	   // .andExpect(jsonPath("country").value("India"))
+	    .andExpect(jsonPath("postalCode").value("68889"));
 
 
 	}
@@ -98,7 +104,7 @@ class CustomerControllerTest {
 	@Test
 	public void test_addCustomer() {
 		
-		Customer customer=new Customer("101","Prathika","prathika@gmail.com","9247847122");
+		Customer customer=new Customer("101","Prathika","prathika@gmail.com","9247847122","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889");
 		when(customerService.addCustomer(customer)).thenReturn(customer);
 		Object result=customerService.addCustomer(customer);
 		assertEquals("101",((Customer) result).getIdentifier());
@@ -116,9 +122,9 @@ class CustomerControllerTest {
 	@Test
 	public void test_showAllCustomers() {
 		List<Customer> customerList=new ArrayList<>();
-		customerList.add(new Customer("101","Prathika","prathika@gmail.com","9247847122"));
-		customerList.add(new Customer("102","Radha","radha@gmail.com","7660881766"));
-		customerList.add(new Customer("103","Teena","teena@gmail.com","9246530559"));
+		customerList.add(new Customer("101","Prathika","prathika@gmail.com","9247847122","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889"));
+		customerList.add(new Customer("102","Radha","radha@gmail.com","7660881766","Flat-8","LelaNagar","Bangalore","Karnataka","Inida","500018"));
+		customerList.add(new Customer("103","Teena","teena@gmail.com","9246530559","Hno-10-5","Rail Nilayam","Hyderabad","Telangana","Inida","599871"));
 		Mockito.when(customerService.findAll()).thenReturn(customerList);
 
 		
@@ -132,7 +138,7 @@ class CustomerControllerTest {
 	@Test
 	void test_deleteCustomer() throws Exception {
 	
-	BDDMockito.given(customerService.findByIdentifier(Mockito.anyString())).willReturn(new Customer("103","Teena","teena@gmail.com","9246530559"));
+	BDDMockito.given(customerService.findByIdentifier(Mockito.anyString())).willReturn(new Customer("103","Teena","teena@gmail.com","9246530559","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889"));
 	doNothing().when(customerService).deleteCustomer("103");
 	mockMvc.perform(MockMvcRequestBuilders.get("/api/customers/103"))
 	.andExpect(jsonPath("$").isMap())
@@ -153,7 +159,7 @@ class CustomerControllerTest {
 	
 	@Test
 	void test_updateCustomer_ShouldReturnCustomer() {
-		Customer customer=new Customer("103","Teena","teena@gmail.com","9246530559");
+		Customer customer=new Customer("103","Teena","teena@gmail.com","9246530559","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889");
 		when(customerService.updateCustomer(customer)).thenReturn(customer);
 		Customer result=(Customer) customerService.updateCustomer(customer);
 		assertEquals("Teena",result.getName());

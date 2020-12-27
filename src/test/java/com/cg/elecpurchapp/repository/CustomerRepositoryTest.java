@@ -34,7 +34,7 @@ class CustomerRepositoryTest {
 	 */
 	@Test
 	void test_addCustomer() {
-		Customer customer=new Customer("103","Teena","teena@gmail.com","9246530559");
+		Customer customer=new Customer("103","Teena","teena@gmail.com","9246530559","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889");
 		Customer newCustomer=customerRepository.save(customer);
 		assertEquals("103",newCustomer.getIdentifier());
 	}
@@ -44,7 +44,7 @@ class CustomerRepositoryTest {
 	
 	@Test
 	void test_updateCustomer() {
-		Customer customer=new Customer("103","Teena","teena@gmail.com","9246530559");
+		Customer customer=new Customer("103","Teena","teena@gmail.com","9246530559","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889");
 		Customer newCustomer=customerRepository.save(customer);
 		assertEquals("Teena",newCustomer.getName());
 	}
@@ -53,8 +53,8 @@ class CustomerRepositoryTest {
 	 */
 	@Test
 	void test_ShowAllCustomers() {
-		Customer customer1=new Customer("101","Prathika","prathika@gmail.com","9247847122");
-		Customer customer2=new Customer("102","Ram","ram@gmail.com","9848654212");
+		Customer customer1=new Customer("101","Prathika","prathika@gmail.com","9247847122","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889");
+		Customer customer2=new Customer("102","Ram","ram@gmail.com","9848654212","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889");
 		customerRepository.save(customer1);
 		customerRepository.save(customer2);
 		assertNotNull(customerRepository.findAll());

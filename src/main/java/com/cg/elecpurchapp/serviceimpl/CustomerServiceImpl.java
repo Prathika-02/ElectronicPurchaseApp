@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.elecpurchapp.domain.Customer;
+import com.cg.elecpurchapp.exception.CustomerException;
 import com.cg.elecpurchapp.exception.CustomerNotFoundException;
 import com.cg.elecpurchapp.repository.CustomerRepository;
 import com.cg.elecpurchapp.service.CustomerService;
@@ -32,12 +33,12 @@ public class CustomerServiceImpl implements CustomerService{
 	 */
 	
 	@Override
-	public Customer addCustomer(Customer customer)  {
+	public Customer saveOrUpdate(Customer customer)  {
 		try {
 			customer.setIdentifier(customer.getIdentifier().toUpperCase());
 			return customerRepository.save(customer);
 		} catch (Exception e) {
-			throw new CustomerNotFoundException();
+			throw new CustomerException("Customer Identifier " + customer.getIdentifier() + " already available");
 		}
 	}
 	
@@ -54,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService{
 		if(optionalCustomer.isPresent()) {
 			customer = optionalCustomer.get();
 		} else {
-			throw new CustomerNotFoundException();
+			throw new CustomerException("Customer Identifier " + identifier + " not available");
 		}
 		return customer;
 	}
@@ -87,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService{
 		// TODO Auto-generated method stub
 		Customer customer=findByIdentifier(identifier);
 		if(customer==null) {
-			throw new CustomerNotFoundException();
+			throw new CustomerException("Customer Identifier " + identifier + " not available");
 		}
 		customerRepository.delete(customer);
 		 
@@ -97,6 +98,12 @@ public class CustomerServiceImpl implements CustomerService{
 	public Object updateCustomer(Customer customer) {
 		// TODO Auto-generated method stub
 		
+		return null;
+	}
+
+	@Override
+	public Customer addCustomer(Customer customer) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

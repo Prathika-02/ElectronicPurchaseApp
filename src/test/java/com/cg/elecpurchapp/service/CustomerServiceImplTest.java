@@ -50,13 +50,19 @@ class CustomerServiceImplTest {
 	
 	@Test
 	void test_viewCustomer() throws Exception{
-		BDDMockito.given(customerRepository.findByIdentifier("102")).willReturn(Optional.of(new Customer("102","Radha","radha@gmail.com","7660881766")));
+		BDDMockito.given(customerRepository.findByIdentifier("102")).willReturn(Optional.of(new Customer("102","Radha","radha@gmail.com","7660881766","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889")));
 		Customer customer=customerServiceImpl.findByIdentifier("102");
 		assertNotNull(customer);
 		assertEquals("102", customer.getIdentifier());
 		assertEquals("Radha", customer.getName());
 		assertEquals("radha@gmail.com", customer.getEmail());
 		assertEquals("7660881766", customer.getPhone());
+		assertEquals("Hno-103", customer.getAddressLineOne());
+		assertEquals("Fathenagar", customer.getAddressLineTwo());
+		assertEquals("Hyderabad", customer.getCity());
+		assertEquals("Telangana", customer.getlState());
+		//assertEquals("India", customer.getCountry());
+		assertEquals("68889", customer.getPostalCode());
 		
 	}
 	
@@ -64,8 +70,8 @@ class CustomerServiceImplTest {
 	 * Testing the findByIdentifier method of the service layer when customerRepository findByIdentifier throws customer not found exception.
 	 */
 	@Test
-	void test_viewCustomer_ThrowCustomerNotFoundException() {
-		BDDMockito.given(customerRepository.findByIdentifier("102")).willThrow(new CustomerNotFoundException());
+	void test_viewCustomer_ThrowCustomerException() {
+		BDDMockito.given(customerRepository.findByIdentifier("103")).willThrow(new CustomerNotFoundException());
 		assertThrows(CustomerNotFoundException.class, ()->customerServiceImpl.findByIdentifier("103"));
 		
 	}
@@ -74,7 +80,7 @@ class CustomerServiceImplTest {
 	 */
 	@Test
 	void test_addCustomer() {
-		Customer customer=new Customer("101","Prathika","prathika@gmail.com","9247847122");
+		Customer customer=new Customer("101","Prathika","prathika@gmail.com","9247847122","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889");
 		when(customerRepository.save(customer)).thenReturn(customer);
 		Object result=customerRepository.save(customer);
 		assertEquals("101",((Customer) result).getIdentifier());
@@ -90,9 +96,9 @@ class CustomerServiceImplTest {
 	@Test
 	public void test_showAllCustomers() {
 		List<Customer> customerList=new ArrayList<Customer>();
-		customerList.add(new Customer("101","Prathika","prathika@gmail.com","9247847122"));
-		customerList.add(new Customer("102","Radha","radha@gmail.com","7660881766"));
-		customerList.add(new Customer("103","Teena","teena@gmail.com","9246530559"));
+		customerList.add(new Customer("101","Prathika","prathika@gmail.com","9247847122","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889"));
+		customerList.add(new Customer("102","Radha","radha@gmail.com","7660881766","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889"));
+		customerList.add(new Customer("103","Teena","teena@gmail.com","9246530559","Hno-103","Fathenagar","Hyderabad","Telangana","Inida","68889"));
 		Mockito.when(customerRepository.findAll()).thenReturn(customerList);
 		
 	}

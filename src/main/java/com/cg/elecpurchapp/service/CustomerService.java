@@ -22,6 +22,8 @@ public interface CustomerService {
 
 	Object updateCustomer(Customer customer);
 
+	Customer saveOrUpdate( Customer customer);
+
 
 
 

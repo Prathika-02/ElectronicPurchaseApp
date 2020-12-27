@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import com.cg.elecpurchapp.service.MapValidationErrorService;
 
 @RestController
 @RequestMapping("/api/customers")
+@CrossOrigin
 public class CustomerController {
 
 	@Autowired
@@ -46,7 +48,7 @@ public class CustomerController {
 		ResponseEntity<?> errorMap = MapValidationErrorService.mapValidationError(result);
 		if(errorMap!=null) 
 			return errorMap;
-		Customer newCustomer = customerService.addCustomer(customer);
+		Customer newCustomer = customerService.saveOrUpdate(customer);
 		return new ResponseEntity<Customer>(newCustomer, HttpStatus.CREATED);
 	}
 	/**
@@ -61,7 +63,7 @@ public class CustomerController {
 	}
 	
 	/**
-	 * Handles the request for showing the data of all the customera.
+	 * Handles the request for showing the data of all the customers.
 	 * @return the iterable of type customers.
 	 */
 	@GetMapping("/all")
